@@ -1,18 +1,18 @@
 import Head from 'next/head'
-import PokemonsList from '../component/view/PokemonsList'
+import MyPokemonsList from '../component/view/MyPokemonsList'
 import {PokemonProvider} from '../component/utils/PokemonProvider'
 
-export default function Home() {
+export default function Pokedex() {
   return (
     <div className="container">
       <Head>
-        <title>Pokemons</title>
+        <title>My Pokemons</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <PokemonProvider>
-          <PokemonsList />
+          <MyPokemonsList />
         </PokemonProvider>
       </main>
 
@@ -157,7 +157,6 @@ export default function Home() {
           }
         }
       `}</style>
-
       <style jsx global>{`
         html,
         body {

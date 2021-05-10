@@ -1,18 +1,18 @@
 import Head from 'next/head'
-import PokemonsList from '../component/view/PokemonsList'
+import PokemonDetail from '../component/view/PokemonDetail'
 import {PokemonProvider} from '../component/utils/PokemonProvider'
 
 export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Pokemons</title>
+        <title>Pokemon Detail</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <PokemonProvider>
-          <PokemonsList />
+          <PokemonDetail />
         </PokemonProvider>
       </main>
 
