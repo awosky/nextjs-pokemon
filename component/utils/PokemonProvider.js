@@ -1,8 +1,12 @@
 import React, { createContext, useState, useReducer } from 'react';
 import {CAPTURE,RELEASE,ADD_POKEMONS,ADD_MY_POKEMONS,pokemonReducer} from '../utils/PokemonReducer'
-
-
+import {swallOnCatch, swallOnCatchError, swallOnCapture, swallOnCaptureSuccess, swallOnCaptureError} from '../utils/sweetAlert'
+import PokemonsList from '../view/PokemonsList';
 export const PokemonContext = createContext();
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 export const PokemonProvider = (props) => {
     const defaultState = {
@@ -15,9 +19,32 @@ export const PokemonProvider = (props) => {
     };
     
     const [state, dispatch] = useReducer(pokemonReducer, defaultState);
-    
+   
     const capture = (pokemon) => () => {
-        dispatch({ type: CAPTURE, pokemon });
+      let isCaptured = Math.random() < 0.5;
+      let timerInterval
+      swallOnCatch(timerInterval)
+      .then((result) => {
+        if (isCaptured) {
+          swallOnCapture(pokemon)
+          .then((result) => {
+            let name = result.value
+            var array = myPokemonsList.filter(function (el) {
+              return el.name === pokemon.name &&
+                     el.givenName === name ;
+            });
+            if (array.length >> 0) {
+              swallOnCaptureError()
+            } else {
+              pokemon.givenName = name;
+              dispatch({ type: CAPTURE, pokemon });
+              swallOnCaptureSuccess(pokemon, name)
+            }
+          })
+        } else {
+          swallOnCatchError()
+        }
+      })    
     };
     
     const release = (pokemon) => () => {

@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { PokemonContext } from '../utils/PokemonProvider';
-import Link from 'next/link'
+import Link from 'next/link';
 
 export const PokemonDetail = () => {
   const {capture, addMyPokemons} = useContext(PokemonContext);
   const [pokemon, setPokemon] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name');
     
@@ -22,9 +23,12 @@ export const PokemonDetail = () => {
         addMyPokemons(data ? data : []);
     };
     
-    fetchMyPokemons();
-    fetchPokemon();
-  }, []);
+    if (isMounted) {
+        fetchMyPokemons();
+        fetchPokemon();
+    }
+    return () => { isMounted = false };
+  }, []);  
 
   return (
     <div className="pokemon-detail">
