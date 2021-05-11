@@ -26,10 +26,13 @@ const MyPokemonsList = () => {
           </div>
       </div>
       <div className="row">
-        {myPokemonsList.map((pokemon) =>
+        {myPokemonsList.length >> 0
+        ?myPokemonsList.map((pokemon) =>
           <div key={pokemon.name} className="col-lg-3 col-sm-4 col-6 mx-auto my-2">
             <div className="my-poke-card text-center shadow-sm rounded bg-white pb-3">
-              <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} className="img-fluid w-50 p-2 my-poke-img" alt={pokemon.name} />
+              <Link key={pokemon.name} href={"/detail?name="+pokemon.name}>
+                <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} className="img-fluid w-50 p-2 my-poke-img" alt={pokemon.name} title="Go to pokemon details"/>
+              </Link>
               <div className="my-2">
                 <img src="/pokemon-release.png" className="img-fluid releaseBtn" onClick={release(pokemon)} alt="Release Pokemon" title="Release the pokemon"/>
               </div>
@@ -42,7 +45,8 @@ const MyPokemonsList = () => {
                 :<></>}
               </div>
             </div>
-          </div>)}
+          </div>)
+          :<p className="text-center">You don't have any pokemon yet</p>}
       </div>
       <div className="text-center mt-5">
         <Link href="/">
@@ -63,6 +67,7 @@ const MyPokemonsList = () => {
       }
 
       .my-poke-card .my-poke-img{
+        cursor:pointer;
         position: absolute;
         top: -100px;
         left: 50%;
