@@ -71,7 +71,7 @@ export const PokemonsList = () => {
             </div>
           </div>
         </Link>)
-        :<div className="text-center my-5 py-5 loadingIcon"><FontAwesomeIcon icon={faSyncAlt} width="100" height="100"/></div>}
+        :<div className="text-center my-5 loadingIcon"><img src="/pokemon.png" className="img-fluid" alt="Loading"/> </div>}
       </div>
     <style jsx>{`
       .pokemons-list .myPokemonBtn {
@@ -121,7 +121,7 @@ export const PokemonsList = () => {
       }
       
       .loadingIcon {
-        animation: spinner 1s linear infinite;
+        animation: spinner 2s linear infinite;
       }
 
       @media (max-width: 600px) {
