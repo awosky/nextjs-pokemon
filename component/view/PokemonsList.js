@@ -54,7 +54,8 @@ export const PokemonsList = () => {
           </div>
       </div>
       <div className="row">
-        {pokemons.map((pokemon) =>
+        {pokemons.length >> 0
+        ?pokemons.map((pokemon) =>
         <Link key={pokemon.name} href={"/detail?name="+pokemon.name}>
           <div className="col-lg-3 col-sm-4 col-6 mx-auto my-2">
             <div className="poke-card text-center shadow-sm rounded bg-white pb-3">
@@ -69,7 +70,8 @@ export const PokemonsList = () => {
               </div>
             </div>
           </div>
-        </Link>)}
+        </Link>)
+        :<div className="text-center my-5 py-5 loadingIcon"><FontAwesomeIcon icon={faSyncAlt} width="100" height="100"/></div>}
       </div>
     <style jsx>{`
       .pokemons-list .myPokemonBtn {
@@ -112,6 +114,14 @@ export const PokemonsList = () => {
       .poke-card:hover img{
         transform: scale(1.1);
         transition: transform .5s linear;
+      }
+
+      @keyframes spinner {
+        to { transform: rotate(360deg); }
+      }
+      
+      .loadingIcon {
+        animation: spinner 1s linear infinite;
       }
 
       @media (max-width: 600px) {
