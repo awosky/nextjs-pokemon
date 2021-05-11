@@ -4,7 +4,7 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 export const swallOnCatch = (timerInterval) => Swal.fire({
-    title: 'Try to catch the pokemon',
+    text: 'Try to catch the pokemon',
     html: 'Say adacadabra to catch and make pokemon yours',
     timer: 3000,
     timerProgressBar: true,
@@ -26,7 +26,7 @@ export const swallOnCatch = (timerInterval) => Swal.fire({
 })
 
 export const swallOnCapture = (pokemon) => Swal.fire({
-    title:`${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} successfully caught, Give your pokemon name`,
+    text:`${pokemon.name} successfully caught, give your pokemon name`,
     imageUrl: `https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`,
     input: 'text',
     inputAttributes: {
@@ -42,7 +42,7 @@ export const swallOnCapture = (pokemon) => Swal.fire({
 })
 
 export const swallOnCaptureSuccess = (pokemon, name) => Swal.fire({
-    title: `${name.charAt(0).toUpperCase() + name.slice(1)} - ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} is yours`,
+    text: `${name} - ${pokemon.name} is yours`,
     icon: 'success'
 })
 
@@ -58,3 +58,9 @@ export const swallOnCaptureError = () => Swal.fire({
     title: 'Failed',
     text: 'That name is already used.. try again !',
 })
+
+export const swallOnRelease = () => Swal.fire({
+    text: 'Are you sure to release this pokemon?',
+    showCancelButton: true,
+    confirmButtonText: `Yes`,
+  })

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useReducer } from 'react';
 import {CAPTURE,RELEASE,ADD_POKEMONS,ADD_MY_POKEMONS,pokemonReducer} from '../utils/PokemonReducer'
-import {swallOnCatch, swallOnCatchError, swallOnCapture, swallOnCaptureSuccess, swallOnCaptureError} from '../utils/sweetAlert'
+import {swallOnCatch, swallOnCatchError, swallOnCapture, swallOnCaptureSuccess, swallOnCaptureError,swallOnRelease} from '../utils/sweetAlert'
 import PokemonsList from '../view/PokemonsList';
 export const PokemonContext = createContext();
 import Swal from 'sweetalert2'
@@ -10,11 +10,7 @@ const MySwal = withReactContent(Swal)
 
 export const PokemonProvider = (props) => {
     const defaultState = {
-        pokemons: [
-          { id: 1, name: 'Bulbasaur' },
-          { id: 2, name: 'Charmander' },
-          { id: 3, name: 'Squirtle' }
-        ],
+        pokemons: [],
         myPokemonsList: []
     };
     
@@ -28,17 +24,19 @@ export const PokemonProvider = (props) => {
         if (isCaptured) {
           swallOnCapture(pokemon)
           .then((result) => {
-            let name = result.value
-            var array = myPokemonsList.filter(function (el) {
-              return el.name === pokemon.name &&
-                     el.givenName === name ;
-            });
-            if (array.length >> 0) {
-              swallOnCaptureError()
-            } else {
-              pokemon.givenName = name;
-              dispatch({ type: CAPTURE, pokemon });
-              swallOnCaptureSuccess(pokemon, name)
+            if (result.isConfirmed) {
+              let name = result.value
+              var array = myPokemonsList.filter(function (el) {
+                return el.name === pokemon.name &&
+                      el.givenName === name ;
+              });
+              if (array.length >> 0) {
+                swallOnCaptureError()
+              } else {
+                pokemon.givenName = name;
+                dispatch({ type: CAPTURE, pokemon });
+                swallOnCaptureSuccess(pokemon, name)
+              }
             }
           })
         } else {
@@ -48,7 +46,14 @@ export const PokemonProvider = (props) => {
     };
     
     const release = (pokemon) => () => {
-        dispatch({ type: RELEASE, pokemon });
+      swallOnRelease()
+      .then((result) => {
+        if (result.isConfirmed) {
+          dispatch({ type: RELEASE, pokemon })
+          Swal.fire('', 'Success', 'success')
+        } 
+      })
+        ;
     };
 
     const addPokemons = (pokemons) => {
